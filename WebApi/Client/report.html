@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="css-lib/report.css" rel="stylesheet" />
+    <script src="../../Scripts/jquery-3.4.1.js"></script>
+    <!--<script src="js-lib/EmployeeGetAjaxCall.js"></script>-->
+    <script>
+        function EmployeeGetAjaxCall() {
+;            let webRoot = "";
+            let $reportTable = $("#reportTable");
+            let $tbody = $("#reportTable #tbody");
+            $.ajax({
+                dataType: "json",
+                url: "api/employee",
+                contentType: "application/json",
+                type: "GET",
+                success: function (data) {
+                    alert("4");
+                    $reportTable.css({ "display": "inline-block" });
+                    for (var i = 0; i < data.length; i++) {
+                        $("#tbody").append(createEmployeeData(data[i]));
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+
+        function createEmployeeData(employee) {
+            return `
+           <tr>
+                <td>${employee.EmployeeId}</td>
+                <td>${employee.FullName}</td>
+                <td>${employee.Title}</td>
+                <td>${employee.City}</td>
+                <td>${employee.TotalTracksSold}</td>
+                <td>${employee.TotalPrice}</td>
+           </tr>
+         `;
+        }
+
+    </script>
+
+</head>
+<body>
+    <button onclick="EmployeeGetAjaxCall()">Produce A Report</button>
+    <br />
+    <br />
+    <table class="unstyledTable" id="reportTable">
+        <thead>
+            <tr>
+                <th>EmployeeId</th>
+                <th>EmployeeFullName</th>
+                <th>Title</th>
+                <th>City</th>
+                <th>TotalTracksSold</th>
+                <th>TotalPrice</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+    </table>
+</body>
+</html>
